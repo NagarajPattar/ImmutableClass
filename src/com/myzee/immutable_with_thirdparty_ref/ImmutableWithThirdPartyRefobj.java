@@ -1,18 +1,18 @@
-package com.myzee.immutable;
+package com.myzee.immutable_with_thirdparty_ref;
 
-public class ImmutableWithMutableReference {
+public class ImmutableWithThirdPartyRefobj {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		Author a = new Author(1, "nagarj");
+		ChildAuthor a = new ChildAuthor(1, "nagarj");
 		Book b = new Book(11, "Java Advanced Programming", "Technical", a);
 		System.out.println(b);
-		a.authorName = "Nicholos";
+		a.setAuthorName("Nicholos");
 		System.out.println(b);
 		
 		// Using book.getAuthor() and modifying the author details.
-		Author a1 = b.getAuthor();
-		a1.authorName = "Thomos";
+		ChildAuthor a1 = b.getChildAuthor();
+		a1.setAuthorName("Thomos");
 		System.out.println("a1 - " + a1);
 		System.out.println(b);
 	}
@@ -23,13 +23,13 @@ final class Book {
 	private final int isbnId;
 	private final String bookName;
 	private final String bookType;
-	private final Author author;
+	private final ChildAuthor author;
 	
-	public Book(int id, String bookName, String bookType, Author author) {
+	public Book(int id, String bookName, String bookType, ChildAuthor author) {
 		this.isbnId = id;
 		this.bookName = bookName;
 		this.bookType = bookType;
-		this.author = new Author(author.authorId, author.authorName);
+		this.author = new ChildAuthor(author.getAuthorId(), author.getAuthorName());
 	}
 
 	public int getIsbnId() {
@@ -44,7 +44,7 @@ final class Book {
 		return bookType;
 	}
 
-	public Author getAuthor() {
+	public ChildAuthor getChildAuthor() {
 		return author;
 	}
 	
@@ -57,8 +57,8 @@ final class Book {
 }
 
 class Author {
-	public int authorId;
-	public String authorName;
+	private int authorId;
+	private String authorName;
 	
 	public Author(int id, String name) {
 		// TODO Auto-generated constructor stub
@@ -87,4 +87,26 @@ class Author {
 		// TODO Auto-generated method stub
 		return this.authorId + ", " + this.authorName;
 	}	
+}
+
+class ChildAuthor extends Author {
+
+	public ChildAuthor(int id, String name) {
+		super(id, name);
+		// TODO Auto-generated constructor stub
+	}
+	
+	@Override
+	public void setAuthorId(int authorId) {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException();
+	}
+	
+	@Override
+	public void setAuthorName(String authorName) {
+		// TODO Auto-generated method stub
+//		super.setAuthorName(authorName);
+		throw new UnsupportedOperationException();
+	}
+	
 }
